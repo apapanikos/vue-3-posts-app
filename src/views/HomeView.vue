@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { usePostStore } from '../stores/post'
+import PostCard from '@/components/PostCard.vue'
+
 const { posts, loading, error } = storeToRefs(usePostStore())
 const { fetchPosts } = usePostStore()
 
@@ -10,12 +12,32 @@ fetchPosts()
 </script>
 
 <template>
-  <main>
-    <p v-if="loading">Loading posts...</p>
-    <p v-if="error">{{ error.message }}</p>
-    <p v-if="posts" v-for="post in posts" :key="post.id">
-      <RouterLink :to="`/post/${post.id}`">{{ post.title }}</RouterLink>
-      <p>{{ post.body }}</p>
-    </p>
+  <main class="mb-auto">
+    <div class="divide-y divide-gray-200 dark:divide-gray-700">
+      <div class="space-y-2 pt-6 pb-8 md:space-y-5">
+        <h1
+          class="tagline text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
+        >
+          <!-- Latest Posts -->
+          Latest <span>Trending</span> <br />
+          Random Funny Posts
+        </h1>
+        <p class="text-lg leading-7 text-gray-500 dark:text-gray-400">
+          A blog created with Vue 3 - CompositionAPI, Pinia & Tailwind.css
+        </p>
+      </div>
+      <ul v-if="posts" class="divide-y divide-gray-200 dark:divide-gray-700">
+        <PostCard class="py-12" v-for="post in posts" :key="post.id" :post="post" />
+      </ul>
+    </div>
   </main>
 </template>
+
+<style scoped>
+.tagline {
+  background: -webkit-linear-gradient(315deg, #42d392 25%, #647eff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+</style>
