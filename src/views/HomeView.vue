@@ -18,7 +18,6 @@ fetchPosts()
         <h1
           class="tagline text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
         >
-          <!-- Latest Posts -->
           Latest <span>Trending</span> <br />
           Random Funny Posts
         </h1>
