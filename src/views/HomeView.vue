@@ -1,36 +1,21 @@
-<template>
-  <main>
-    <button @click="getTodos">Get Todos</button>
-    <ul v-if="todos?.length">
-      <li v-for="todo in todos" :key="todo.id">{{ todo.title }}</li>
-    </ul>
-  </main>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { injectStrict } from '@/utilities/injectTyped'
-import { AxiosKey } from '@/utilities/symbols.ts'
-import { useHttpClient } from '@/services/axios/useHttpClient'
+import { RouterLink } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { usePostStore } from '../stores/post'
+const { posts, loading, error } = storeToRefs(usePostStore())
+const { fetchPosts } = usePostStore()
 
-interface Todo {
-  userId: number
-  id: number
-  title: string
-  completed: boolean
-}
-
-const todos = ref<Todo[]>([])
-
-const httpClient = injectStrict(AxiosKey)
-const { get, response } = useHttpClient<Todo[], undefined>(httpClient)
-
-async function getTodos() {
-  await get('/todos', {
-    params: {
-      _limit: 10
-    }
-  })
-  todos.value = response?.value?.data as Todo[]
-}
+fetchPosts()
 </script>
+
+<template>
+  <main>
+    <p v-if="loading">Loading posts...</p>
+    <p v-if="error">{{ error.message }}</p>
+    <p v-if="posts" v-for="post in posts" :key="post.id">
+      <RouterLink :to="`/post/${post.id}`">{{ post.title }}</RouterLink>
+      <p>{{ post.body }}</p>
+    </p>
+  </main>
+</template>
