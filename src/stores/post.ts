@@ -26,37 +26,15 @@ export const usePostStore = defineStore({
     }
   },
   actions: {
-    async fetchPosts() {
-      // this.posts = []
-      // this.loading = true
-      // try {
-      //   this.posts = await fetch('https://jsonplaceholder.typicode.com/posts').then((response) =>
-      //     response.json()
-      //   )
-      // } catch (error) {
-      //   this.error = error
-      // } finally {
-      //   this.loading = false
-      // }
-      const { get, isLoading, response, error } = useHttpClient<Post[]>(injectStrict(AxiosKey))
-      await get('/posts', {})
+    async fetchPosts({ page = 1, limit = 10 } = {}) {
+      const { get, isLoading, response, error } = useHttpClient<Post[]>()
+      await get(`/posts?_limit=${limit}_page=${page}`, {})
       this.posts = response?.value?.data || []
       this.loading = isLoading.value
       this.error = error.value
     },
     async fetchPost(id: number) {
-      // this.post = null
-      // this.loading = true
-      // try {
-      //   this.post = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`).then(
-      //     (response) => response.json()
-      //   )
-      // } catch (error) {
-      //   this.error = error
-      // } finally {
-      //   this.loading = false
-      // }
-      const { get, isLoading, response, error } = useHttpClient<Post>(injectStrict(AxiosKey))
+      const { get, isLoading, response, error } = useHttpClient<Post>()
       await get(`/posts/${id}`, {})
       this.post = response?.value?.data || null
       this.loading = isLoading.value

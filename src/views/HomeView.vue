@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { RouterLink } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { usePostStore } from '../stores/post'
 import PostCard from '@/components/PostCard.vue'
 import Pagination from '@/components/Pagination.vue'
 
+const page = ref(1)
+
 const { posts, loading, error } = storeToRefs(usePostStore())
 const { fetchPosts } = usePostStore()
 
-fetchPosts()
+fetchPosts({ page: page.value })
+
+function setPage(page: number) {
+  fetchPosts({ page })
+}
 </script>
 
 <template>
@@ -29,7 +34,7 @@ fetchPosts()
       <ul v-if="posts" class="divide-y divide-gray-200 dark:divide-gray-700">
         <PostCard class="py-12" v-for="post in posts" :key="post.id" :post="post" />
       </ul>
-      <Pagination />
+      <Pagination :currPage="page" @set-page="setPage" />
     </div>
   </main>
 </template>
@@ -42,3 +47,4 @@ fetchPosts()
   -webkit-text-fill-color: transparent;
 }
 </style>
+@/services/post/usePosts @/services/posts/usePosts

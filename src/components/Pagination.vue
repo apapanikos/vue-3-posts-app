@@ -1,11 +1,13 @@
 <script setup lang="ts">
 defineProps(['hasNextPage', 'hasPreviousPage', 'currPage'])
+defineEmits(['set-page'])
 </script>
 
 <template>
   <div class="w-full py-4 space-x-4 flex items-center justify-center">
     <div
       class="rounded h-8 w-8 bg-[#383838] hover:bg-emerald-600 ease-in duration-200 cursor-pointer flex items-center justify-center bg-purple p-2 font-semibold text-sm text-gray-200"
+      @click="$emit('set-page', currPage - 1)"
     >
       <svg class="fill-white" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
         <path
@@ -16,6 +18,7 @@ defineProps(['hasNextPage', 'hasPreviousPage', 'currPage'])
     <span class="font-semibold text-sm text-gray-100">{{ currPage || 1 }}</span>
     <div
       class="rounded h-8 w-8 bg-[#383838] hover:bg-emerald-600 ease-in duration-200 cursor-pointer flex items-center justify-center bg-purple p-2 font-semibold text-sm text-gray-200"
+      @click="$emit('set-page', currPage + 1)"
     >
       <svg class="fill-white" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
         <path

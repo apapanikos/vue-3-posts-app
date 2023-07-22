@@ -1,16 +1,13 @@
-import Axios, {
-  AxiosError,
-  type AxiosInstance,
-  type AxiosRequestConfig,
-  type AxiosResponse
-} from 'axios'
+import { AxiosError, type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { type Ref } from 'vue'
 
 import type { AxiosComposables } from './types'
 import { ref, shallowRef } from 'vue'
+import { injectStrict } from '@/utilities/injectTyped'
+import { AxiosKey } from '@/utilities/symbols'
 
 export function useHttpClient<T, E = unknown, H = unknown>(
-  instance: AxiosInstance
+  instance: AxiosInstance = injectStrict(AxiosKey)
 ): AxiosComposables<T, E> {
   const isLoading = ref(false)
   const hasFailed = ref(false)
