@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { usePostStore } from '../stores/post'
 import PostCard from '@/components/PostCard.vue'
+import Pagination from '@/components/Pagination.vue'
 
 const { posts, loading, error } = storeToRefs(usePostStore())
 const { fetchPosts } = usePostStore()
@@ -28,6 +29,7 @@ fetchPosts()
       <ul v-if="posts" class="divide-y divide-gray-200 dark:divide-gray-700">
         <PostCard class="py-12" v-for="post in posts" :key="post.id" :post="post" />
       </ul>
+      <Pagination />
     </div>
   </main>
 </template>

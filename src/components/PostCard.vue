@@ -25,6 +25,7 @@ defineProps(['post'])
                 <li
                   class="mr-3 text-sm font-medium uppercase text-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400"
                   v-for="n in 3"
+                  :key="n"
                 >
                   VUE3
                 </li>
